@@ -1,0 +1,42 @@
+package tests;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class LoginTest {
+
+    @Test
+    public void validLoginTest() {
+
+        // Setup ChromeDriver automatically
+        WebDriverManager.chromedriver().setup();
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+
+        // Open website
+        driver.get("https://practicetestautomation.com/practice-test-login/");
+
+        // Perform login
+        driver.findElement(By.id("username")).sendKeys("student");
+        driver.findElement(By.id("password")).sendKeys("Password123");
+        driver.findElement(By.id("submit")).click();
+
+        // Validation
+        String expectedText = "Logged In Successfully";
+        String pageText = driver.getPageSource();
+
+        Assert.assertTrue(pageText.contains(expectedText));
+
+        System.out.println("✅ Test Passed");
+
+        driver.quit();
+    }
+}
